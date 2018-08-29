@@ -1,49 +1,60 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry, Image, Button, Text, TextInput, View, Alert} from 'react-native';
+import ToastExample from './ToastExample';
+import BluetoothAdapter from './BluetoothAdapter';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu!!!',
-});
+export default class HelloWorld extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text:''};
+  }
 
-type Props = {};
-export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style = {{ flex:1}} >
+        <View style = {{ flex:90, backgroundColor:'#CCCCCC'}}>
+          <TextInput style = {{height:40}} placeholder = "Enter your email"/>
+          <Button onPress={() => {
+              BluetoothAdapter.sayHello( (success) => {
+                ToastExample.show( success, ToastExample.LONG);
+              }, (err) => {
+                ToastExample.show( err, ToastExample.LONG);
+              })
+
+          }}
+            title = 'Press me'
+          />
+        </View>
+        <View style = {{ flex:10, backgroundColor:'#333333'}} />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+// class ListItem extends Component {
+//   render() {
+//     return(
+//       <Text>Hello {this.props.name}!</Text>
+//     );
+//   }
+// }
+//
+// class Blink extends Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {isShowingText: true};
+//     setInterval( () => {
+//       this.setState( previousState => {
+//         return { isShowingText: !previousState.isShowingText };
+//       });
+//     }, 1000);
+//   };
+//   render() {
+//     let display = this.state.isShowingText ? 'Hello ' + this.props.text : ' ';
+//     return(
+//       <Text>{display}</Text>
+//     );
+//   }
+// }
+
+AppRegistry.registerComponent('awesomeproject', () => HelloWorld);
